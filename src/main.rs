@@ -1,8 +1,10 @@
 use bevy::{prelude::*, winit::WinitSettings};
 use gameplay::GameplayPlugin;
+use mouse::MousePlugin;
 use ui::UIPlugin;
 
 mod gameplay;
+mod mouse;
 mod ui;
 
 fn main() {
@@ -19,6 +21,7 @@ fn main() {
             }),
             UIPlugin,
             GameplayPlugin,
+            MousePlugin,
         ))
         .insert_resource(WinitSettings::game())
         .run();
