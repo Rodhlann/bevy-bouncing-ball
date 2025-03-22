@@ -1,8 +1,7 @@
 use bevy::prelude::*;
 
 const GRAVITY: f32 = 1200.0;
-const FRICTION: f32 = 0.9;
-const BALL_HEIGHT: f32 = 50.;
+pub const BALL_HEIGHT: f32 = 50.;
 
 #[derive(Component)]
 pub struct Ball;
@@ -64,7 +63,11 @@ pub fn ball_update_system(
     }
 
     // horizontal collision
-    if (ball_state.x - BALL_HEIGHT) <= window_left || (ball_state.x + BALL_HEIGHT) > window_right {
+    if (ball_state.x - BALL_HEIGHT) <= window_left {
+        ball_state.x = window_left + BALL_HEIGHT;
+        horizontal_coll = true;
+    } else if (ball_state.x + BALL_HEIGHT) > window_right {
+        ball_state.x = window_right - BALL_HEIGHT;
         horizontal_coll = true;
     }
 
@@ -75,6 +78,12 @@ pub fn ball_update_system(
 
     if horizontal_coll {
         ball_state.dx = -ball_state.dx * 0.9;
+    }
+
+    let speed = (ball_state.dx.powf(2.0) + ball_state.dy.powf(2.0)).sqrt();
+    if speed < 100.0 && ball_state.y <= window_bottom + BALL_HEIGHT + 2.0 {
+        ball_state.dy *= 0.8;
+        ball_state.y = window_bottom + BALL_HEIGHT;
     }
 
     let mut ball = ball_query.single_mut();

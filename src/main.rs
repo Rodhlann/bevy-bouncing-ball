@@ -24,5 +24,11 @@ fn main() {
             MousePlugin,
         ))
         .insert_resource(WinitSettings::game())
+        .add_systems(Update, frame_limiter_system)
         .run();
+}
+
+fn frame_limiter_system() {
+    use std::{thread, time};
+    thread::sleep(time::Duration::from_millis(15));
 }
