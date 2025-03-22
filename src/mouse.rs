@@ -40,11 +40,12 @@ pub fn mouse_input_system(
         if mouse_button_input.pressed(MouseButton::Left) {
             mouse_state.pressed = true;
             mouse_state.just_released = false;
-        }
-
-        if mouse_button_input.just_released(MouseButton::Left) {
+        } else if mouse_button_input.just_released(MouseButton::Left) {
             mouse_state.pressed = false;
             mouse_state.just_released = true;
+        } else {
+            mouse_state.pressed = false;
+            mouse_state.just_released = false;
         }
     } else {
         if mouse_state.pressed == true {
