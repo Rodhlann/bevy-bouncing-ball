@@ -2,7 +2,7 @@ use bevy::{input::mouse::AccumulatedMouseMotion, prelude::*};
 
 use crate::gameplay::BallState;
 
-#[derive(Resource, Debug, Default)]
+#[derive(Debug, Default)]
 pub struct MouseState {
     pub pressed: bool,
     pub just_released: bool,
@@ -11,14 +11,13 @@ pub struct MouseState {
 pub struct MousePlugin;
 impl Plugin for MousePlugin {
     fn build(&self, app: &mut App) {
-        app.init_resource::<MouseState>();
         app.add_systems(Update, mouse_input_system);
     }
 }
 
 pub fn mouse_input_system(
     mut ball_state: ResMut<BallState>,
-    mut mouse_state: ResMut<MouseState>,
+    mut mouse_state: Local<MouseState>,
     mouse_button_input: Res<ButtonInput<MouseButton>>,
     accumulated_mouse_motion: Res<AccumulatedMouseMotion>,
     windows: Query<&Window>,
@@ -48,7 +47,7 @@ pub fn mouse_input_system(
             mouse_state.just_released = false;
         }
     } else {
-        if mouse_state.pressed == true {
+        if mouse_state.pressed {
             mouse_state.just_released = true;
         } else {
             mouse_state.just_released = false;
