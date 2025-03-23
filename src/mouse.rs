@@ -56,14 +56,14 @@ pub fn mouse_input_system(
     }
 
     if mouse_state.pressed {
-        ball_state.dx = 0.0;
-        ball_state.dy = 0.0;
-        ball_state.x -= ball_state.x - mouse.x;
-        ball_state.y -= ball_state.y - mouse.y;
+        ball_state.delta.x = 0.0;
+        ball_state.delta.y = 0.0;
+        ball_state.pos.x -= ball_state.pos.x - mouse.x;
+        ball_state.pos.y -= ball_state.pos.y - mouse.y;
     }
 
     if mouse_state.just_released {
-        ball_state.dx = mouse_delta.x * 10.;
-        ball_state.dy = -mouse_delta.y * 10.;
+        ball_state.delta.x = mouse_delta.x * 10.;
+        ball_state.delta.y = -mouse_delta.y * 10.;
     }
 }
